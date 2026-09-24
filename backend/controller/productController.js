@@ -29,7 +29,7 @@ const getProductById = async (req, res, next) => {
      try {
     const { id } = req.params;
     if (!id) {
-      return res.status(400).json({ message: "Name and Price are required!!" });
+      return res.status(400).json({ message: "Product id is required" });
     }
     const product = await Product.findByPk(id);
     if (!product) {
@@ -45,19 +45,27 @@ const updateProduct = async (req, res, next) => {
     try {
     const { id } = req.params;
     if (!id) {
-      return res.status(400).json({ message: "Name and Price are required!!" });
+      return res
+      .status(400)
+      .json({ message: "Product id is required!!" });
     }
 
-    const { name, price } = req.body;
-    if (!name && !price) {
+    const { name, price, description, image } = req.body;
+    if (!name || !price) {
       return res
         .status(400)
-        .json({ message: "Name and Price are required fields!!" });
+        .json({ message: "Name and Price cannot be null" });
     }
     const product = await Product.findByPk(id);
     if (!product) {
       return res.status(404).json({ message: "Product not found" });
     }
+    const update = {}
+      if ( name != undefined) updates.name = name;
+      if ( price != undefined) updates.price = Number(price);
+      if ( description != undefined) updates.description = description;
+      if ( image != undefined) updates.image = image;
+      
     await product.update({
       name: name || product.name,
       price: Number(price) || product.price,

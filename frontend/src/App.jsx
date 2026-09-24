@@ -1,21 +1,21 @@
-import { useState } from "react";
-import heroImg from "./assets/hero.png";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import "./App.css";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 
-function App() {
+import AddProductPage from "../pages/AddProductPage";
+import EditProductPage from "../pages/EditProductPage";
+import ProductPage from "../pages/ProductPage";
 
+
+const App = () =>{
   return (
-    <>
-      <div className="aura">
-        <div className="card bg-base-100">
-          <div className="card-body">
-            <p>This card has aura</p>
-          </div>
-        </div>
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Navigate to="/product" replace />} />
+        <Route path="/product" element={<ProductPage/>} />
+        <Route path="/product/new" element={<AddProductPage />} />
+        <Route path="/product/:id/edit" element={<EditProductPage />} />
+        <Route path="*" element={<Navigate to="/products" replace />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
